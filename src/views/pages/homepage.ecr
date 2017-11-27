@@ -1,0 +1,47 @@
+<% content_for "head" do %>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Open WebSocket connection
+        var ws = new WebSocket("ws://" + location.host + "/chat");
+        // Append each message
+        ws.onmessage = function(e) {
+          console.log(e.data)
+          var newData = JSON.parse(e.data)
+          $('#chat').append(newData.message + "\n")
+        };
+        $("form").bind('submit', function(e) {
+          var message = {username: $('#email').val(),message: $('#msg').val()}
+          ws.send(JSON.stringify(message));
+          $('#msg').val(''); $('#msg').focus();
+          e.preventDefault();
+        });
+        window.onbeforeunload = function() {
+          websocket.onclose = function () {}; // disable onclose handler first
+          websocket.close()
+        };
+      });
+    </script>
+<% end %>
+
+<!-- <%= render "src/views/includes/navigation.ecr" %> -->
+<pre id='chat'></pre>
+    <form>
+      <input id='email' placeholder='email' />
+      <input id='msg' placeholder='message...' />
+      <input type="submit" value="Send">
+    </form>
+<div id="app"></div>
+
+
+
+<% content_for "scripts" do %>
+  <script src="js/components/vendor.js"></script>
+  <script src="js/components/firstComp.js"></script>
+<% end %>

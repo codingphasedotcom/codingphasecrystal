@@ -1,0 +1,185 @@
+<% content_for "head" do %>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Open WebSocket connection
+        var ws = new WebSocket("ws://" + location.host + "/chat");
+        // Append each message
+        ws.onmessage = function(e) {
+          console.log(e.data)
+          var newData = JSON.parse(e.data)
+          $('#chat').append(newData.message + "\n")
+        };
+        $("form").bind('submit', function(e) {
+          var message = {username: $('#email').val(),message: $('#msg').val()}
+          ws.send(JSON.stringify(message));
+          $('#msg').val(''); $('#msg').focus();
+          e.preventDefault();
+        });
+        window.onbeforeunload = function() {
+          websocket.onclose = function () {}; // disable onclose handler first
+          websocket.close()
+        };
+      });
+    </script>
+<% end %>
+
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Open WebSocket connection
+      var ws = new WebSocket("ws://" + location.host + "/chat");
+      // Append each message
+      ws.onmessage = function(e) {
+        console.log(e.data)
+        var newData = JSON.parse(e.data)
+        $('#chat').append(newData.message + "\n")
+      };
+      $("form").bind('submit', function(e) {
+        var message = {username: $('#email').val(),message: $('#msg').val()}
+        ws.send(JSON.stringify(message));
+        $('#msg').val(''); $('#msg').focus();
+        e.preventDefault();
+      });
+      window.onbeforeunload = function() {
+        websocket.onclose = function () {}; // disable onclose handler first
+        websocket.close()
+      };
+    });
+  </script>
+
+<header>
+  <div class="container">
+    <div class="logo">
+      <a href="/">CodingPhase</a>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/">Courses</a>
+      <a href="/">Gear</a>
+      <a href="/">Resources</a>
+      <a href="/">Chat</a>
+    </nav>
+  </div>
+</header>
+    <section class="jumbo">
+  <div class="container">
+    <h6>The community has spoken</h6>
+    <h1>CodingPhase is every developer's favorite community</h1>
+    <h2>More than 10,000+ students world wide</h2>
+  </div>
+</section>
+<section class="latest-video">
+  <div class="container">
+    <div class="heading">Courses</div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="languages javascript">Javascript</div>
+        <div class="languages crystal">CRYSTAL</div>
+      </div>
+      <div class="col-sm-4">
+        <div class="languages html">HTML &amp; CSS</div>
+        <div class="languages nodejs">Node JS</div>
+      </div>
+      <div class="col-sm-4">
+        <div class="languages php">PHP</div>
+        <div class="languages ruby">RUBY</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="testimonials">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-1">
+        <div class="circle" style="background: url('https://s3.amazonaws.com/uifaces/faces/twitter/jm_denis/128.jpg'); background-size: cover;"></div>
+      </div>
+      <div class="col-md-2">
+        <div class="circle" style="background: url('https://s3.amazonaws.com/uifaces/faces/twitter/jm_denis/128.jpg'); background-size: cover;"></div>
+      </div>
+      <div class="col-md-2">
+        <div class="circle" style="background: url('https://s3.amazonaws.com/uifaces/faces/twitter/jm_denis/128.jpg'); background-size: cover;"></div>
+      </div>
+      <div class="col-md-2">
+        <div class="circle" style="background: url('https://s3.amazonaws.com/uifaces/faces/twitter/jm_denis/128.jpg'); background-size: cover;"></div>
+      </div>
+      <div class="col-md-2">
+        <div class="circle" style="background: url('https://s3.amazonaws.com/uifaces/faces/twitter/jm_denis/128.jpg'); background-size: cover;"></div>
+      </div>
+    </div>
+    <div class="bubble">swag</div>
+  </div>
+</section>
+<section class="plans">
+  <div class="container">
+    <div class="col-sm-4">
+      <div class="plan">
+        <div class="title">Monthly</div>
+        <div class="features">Over 20+ Courses</div>
+        <div class="features">Frontend and Backend</div>
+        <div class="features">New Videos Added Every Day</div>
+        <div class="features">
+          <div class="price">$20</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="plan">
+        <div class="title">Yearly</div>
+        <div class="features">Over 20+ Courses</div>
+        <div class="features">Frontend and Backend</div>
+        <div class="features">New Videos Added Every Day</div>
+        <div class="features">
+          <div class="price">$150</div>
+          <div class="savings">save $90 dollars</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="plan">
+        <div class="title">Lifetime</div>
+        <div class="features">Over 20+ Courses</div>
+        <div class="features">Frontend and Backend</div>
+        <div class="features">New Videos Added Every Day</div>
+        <div class="features">Priority Support</div>
+        <div class="features">
+          <div class="price">$300</div>
+          <div class="savings">Unlimited Savings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <pre id="chat"></pre>
+  <form>
+    <input id="msg" placeholder="message...">
+    <input type="submit" value="Send">
+  </form>
+</div>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script>
+  $(document).ready(function() {
+    var ws = new WebSocket("ws://localhost:3000/chat");
+    ws.onmessage = function(e) { $("#chat").append(e.data + "<br>") };
+    $("form").bind("submit", function(e) {
+      var message = $("#msg").val();
+      ws.send(message);
+      $("#msg").val("");
+      $("#msg").focus();
+      e.preventDefault();
+    });
+    window.onbeforeunload = function() {
+      websocket.onclose = function () {}; // disable onclose handler first
+    };
+  });
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/dist/main.bundle.js"></script>
