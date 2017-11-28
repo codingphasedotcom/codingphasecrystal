@@ -9,7 +9,7 @@
     <script>
       $(document).ready(function() {
         // Open WebSocket connection
-        var ws = new WebSocket("ws://" + location.host + "/chat");
+        var ws = new WebSocket("wss://" + location.host + "/chat");
         // Append each message
         ws.onmessage = function(e) {
           console.log(e.data)
